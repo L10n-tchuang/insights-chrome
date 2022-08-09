@@ -4,27 +4,30 @@ import { AlertVariant } from '@patternfly/react-core';
 import { ACCOUNT_REQUEST_TIMEOUT, ACTIVE_ACCOUNT_SWITCH_NOTIFICATION } from '../../consts';
 import useAccessRequestNotifier from '../../utils/useAccessRequestNotifier';
 import ChromeLink from '../Sidenav/Navigation/ChromeLink';
+import { useIntl } from 'react-intl';
+import messages from '../../Messages';
 
 const ACCOUNT_CHANGE_ID = 'account_change';
 const ACCOUNT_TIMEOUT_ID = 'account_timeout';
+const intl = useIntl();
 
 const accountSwitchNotification: PortalNotificationConfig = {
   id: ACCOUNT_CHANGE_ID,
-  title: 'View has changed',
-  description: 'You are now viewing console.redhat.com as a customer, and will be interacting with real customer data.',
+  title: `${intl.formatMessage(messages.viewChanged)}`,
+  description: `${intl.formatMessage(messages.viewAsCustomer)}`,
   variant: 'info',
 };
 
 const defaultNotificationConfig: Omit<PortalNotificationConfig, 'id'> = {
   variant: 'info',
   dismissable: true,
-  title: 'You have a new access request that needs your review',
+  title: `${intl.formatMessage(messages.newRequestReview)}`,
 };
 
 const createAccoutTimeoutNotification = (accountId: string) => ({
   variant: AlertVariant.danger,
   id: ACCOUNT_TIMEOUT_ID,
-  title: `You no longer have access to account ${accountId}.`,
+  title: `${intl.formatMessage(messages.noLongerHaveAccess, { accountId })}`,
   autoDismiss: false,
 });
 
